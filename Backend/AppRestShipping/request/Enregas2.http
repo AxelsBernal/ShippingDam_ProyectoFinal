@@ -54,7 +54,7 @@ Content-Type: application/json
 {
   "IdNegocioOK": "2001",
   "IdEntregaOK": "1001-2001-INTL001",
-  "IdEntregaBK": "INTL-001",
+  "IdEntregaBK": "INTL-002",
   "IdOrdenOK": "ORD-1001"
 }
 

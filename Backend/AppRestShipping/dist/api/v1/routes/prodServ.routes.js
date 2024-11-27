@@ -68,6 +68,9 @@ router.get("/info-ad", entregaController.getAllInstitutesInfoAd);
 // Ruta para agregar información adicional
 router.post("/info-adicional/:IdInstitutoOK", entregaController.addInfoAdicional);
 
+//ALDO
+router.post('/productos/:IdInstitutoOK', entregaController.addProduct);
+
 // Nueva ruta para eliminar info_ad por IdInstitutoOK
 router["delete"]("/info-ad/:IdInstitutoOK", entregaController.deleteInfoAdByInstitute);
 
@@ -84,6 +87,15 @@ router.post("/envios/:IdInstitutoOK", entregaController.addEnvio);
 
 // Nueva ruta: Eliminar todos los envíos de un Instituto específico
 router["delete"]("/envios/:IdInstitutoOK", entregaController.deleteEnviosByInstitute);
+
+
+// Nueva ruta: Obtener rastreos con el IdInstitutoOK
+router.get("/rastreos/instituto/:IdInstitutoOK", entregaController.getRastreosByInstituto);
+
+// Nueva ruta: Obtener todos los rastreos
+router.get("/instituto/rastreos", entregaController.getAllRastreos);
+router.get("/rastreos", entregaController.getAllRastreos);
+router.post('/rastreos', entregaController.createRastreo);
 
 // Nueva ruta: Actualizar envíos de un Instituto específico
 router.put("/envios/:IdInstitutoOK", entregaController.updateEnviosByInstitute);

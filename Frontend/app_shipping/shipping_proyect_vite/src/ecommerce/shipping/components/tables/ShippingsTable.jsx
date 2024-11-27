@@ -21,6 +21,8 @@ import EditShippingModal from "../modals/EditShippingModal";
 import AddInfoAdicional from "../modals/AddInfoAdicionalModal";
 import AddTrackingModal from "../modals/AddTrackingModal "; // Importar modal de rastreo
 import AddEnviosModal from "../modals/AddEnviosModal";
+import AddProductModal from "../modals/AddProductModal";
+
 import { deleteShipping } from "../../services/remote/del/DeleteShipping";
 import { getAllShippings } from "../../services/remote/get/GetAllShippings";
 import { editShipping } from "../../services/remote/put/EditShipping";
@@ -45,6 +47,8 @@ const ShippingsTable = () => {
   const [contextMenu, setContextMenu] = useState(null);
   const [enviosData, setEnviosData] = useState([]);
   const [isAddEnviosModalOpen, setIsAddEnviosModalOpen] = useState(false);
+  const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
+
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "" });
   
   
@@ -66,6 +70,8 @@ const ShippingsTable = () => {
     }
   };
 
+
+  
   // Cargar datos al montar el componente
   useEffect(() => {
     loadShippingsData();
@@ -96,6 +102,8 @@ const ShippingsTable = () => {
       showSnackbar("Ocurrió un error al eliminar el envío.", "error");
     }
   };
+
+   
 
   const handleEdit = async (updatedShipping) => {
     try {
@@ -139,6 +147,8 @@ const ShippingsTable = () => {
     );
   };
 
+
+  
   const handleCloseContextMenu = () => {
     setContextMenu(null);
   };
@@ -149,14 +159,16 @@ const ShippingsTable = () => {
   };
 
   const handleAddProductos = () => {
-    alert(`Agregar Productos para: ${selectedRow.IdInstitutoOK}`);
+    setIsAddProductModalOpen(true);
     handleCloseContextMenu();
-  };
+  }; 
 
   const handleAddEnvios = () => {
     setIsAddEnviosModalOpen(true);
     handleCloseContextMenu();
   };
+
+  
 
   const showSnackbar = (message, severity) => {
     setSnackbar({ open: true, message, severity });
@@ -207,7 +219,17 @@ const ShippingsTable = () => {
         }}
       />
 
-      <AddTrackingModal
+<AddProductModal
+      open={isAddProductModalOpen}
+      onClose={() => setIsAddProductModalOpen(false)}
+      IdInstitutoOK={selectedRow?.IdInstitutoOK}
+      onProductAdded={(newProduct) => {
+        console.log("Producto agregado:", newProduct);
+        loadShippingsData(); // Recargar datos después de agregar
+      }}
+    />
+
+<AddTrackingModal
         open={isAddTrackingModalOpen}
         onClose={() => setIsAddTrackingModalOpen(false)}
         onAddTracking={handleAddTracking}
@@ -287,6 +309,8 @@ const ShippingsTable = () => {
         <MenuItem onClick={handleAddInfoAdicional}>Agregar Info Adicional</MenuItem>
         <MenuItem onClick={handleAddProductos}>Agregar Productos</MenuItem>
         <MenuItem onClick={handleAddEnvios}>Agregar Envíos</MenuItem>
+        <MenuItem onClick={handleAddTracking}>Agregar Rastreo</MenuItem>
+        
       </Menu>
     </Box>
   );

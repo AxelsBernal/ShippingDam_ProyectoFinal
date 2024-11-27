@@ -1,14 +1,16 @@
 import axios from "axios";
 
-export const addProduct = async (productData) => {
+const API_BASE_URL = "http://localhost:3020/api/v1";
+
+export const addProduct = async (IdInstitutoOK, productData) => {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_REST_API_ECOMMERCE}entregas/productos`,
+      `${API_BASE_URL}/entregas/productos/${IdInstitutoOK}`,
       productData
     );
     return response.data;
   } catch (error) {
     console.error("Error al agregar el producto:", error);
-    throw error;
+    throw error.response?.data || error;
   }
 };
