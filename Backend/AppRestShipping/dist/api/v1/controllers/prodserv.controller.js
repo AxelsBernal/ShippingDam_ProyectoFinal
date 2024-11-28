@@ -46,8 +46,44 @@ var getAllEntregas = exports.getAllEntregas = /*#__PURE__*/function () {
   }));
   return function getAllEntregas(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
+
   };
 }();
+
+//ALDO
+export const addProduct = async (req, res, next) => {
+  try {
+    const { IdInstitutoOK } = req.params; // Obtener el ID del instituto
+    const newProduct = req.body; // Datos del producto desde el cuerpo
+
+    // Buscar el documento del instituto
+    const entrega = await Entrega.findOne({ IdInstitutoOK });
+
+    if (!entrega) {
+      return res.status(404).json({ message: `No se encontró el instituto con ID: ${IdInstitutoOK}` });
+    }
+
+    // Verifica que `envios` exista
+    if (!Array.isArray(entrega.envios) || entrega.envios.length === 0) {
+      return res.status(400).json({ message: "El instituto no tiene envíos inicializados." });
+    }
+
+    // Agrega el producto al primer envío en `envios`
+    if (!Array.isArray(entrega.envios[0].productos)) {
+      entrega.envios[0].productos = []; // Inicializa productos si está ausente
+    }
+
+    entrega.envios[0].productos.push(newProduct);
+
+    // Guarda los cambios
+    await entrega.save();
+
+    res.status(201).json({ message: "Producto agregado correctamente.", product: newProduct });
+  } catch (error) {
+    console.error("Error al agregar el producto:", error);
+    next(error);
+  }
+};
 
 /* Obtener un envío específico por ID
 

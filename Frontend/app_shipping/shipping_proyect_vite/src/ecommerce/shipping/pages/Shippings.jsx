@@ -70,6 +70,9 @@ export default function Shippings() {
         <Tab label="PRODUCTOS" value="PRODUCTOS" />
         <Tab label="ENVIOS" value="ENVIOS" />
         <Tab label="RASTREO" value="RASTREO" />
+        <Tab label="SANTOS" value="SANTOS" />
+
+
       </Tabs>
 
       {/* Mostrar un mensaje de carga */}
